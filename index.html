@@ -5,169 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MattTube</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #1a1a1a; /* Dark background */
-      color: #fff; /* White text */
-    }
+    /* Your previous CSS (no changes needed) */
+    /* ... (Same CSS you posted) ... */
 
-    header {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      background: #007bff; /* Blue header */
-      color: white;
-      justify-content: space-between;
-      position: fixed; /* Keeps header on top */
+    /* New modal styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
       width: 100%;
-      z-index: 1000; /* Makes sure it's always on top */
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    header a {
-      color: white; /* Link color */
-      text-decoration: none; /* Remove underline */
-    }
-
-    header input {
-      padding: 5px;
+    .modal-content {
+      background-color: #2c2c2c;
+      padding: 20px;
+      border-radius: 8px;
       width: 300px;
-      border: none;
+      color: white;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
       border-radius: 4px;
+      border: 1px solid #444;
       background-color: #444;
       color: white;
     }
 
-    .content {
-      display: flex;
-      gap: 20px;
-      padding: 20px;
-      display: none; /* Hide video section by default */
-      margin-top: 60px; /* Adjust margin to make room for fixed header */
-    }
-
-    .video-section {
-      flex: 3;
-    }
-
-    .side-video-section {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .video-card {
-      background: #2c2c2c; /* Darker card background */
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .video-card h3 {
-      font-size: 18px;
-      color: #fff;
-      margin: 10px 0;
-    }
-
-    .video-card p {
-      color: #ccc;
-    }
-
-    .video-thumbnail {
-      width: 20%; /* 5x smaller */
-      height: auto; /* Maintain aspect ratio */
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 10px;
+    .modal-content button {
+      width: 100%;
       margin-top: 10px;
     }
 
-    .button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .button:hover {
-      background-color: #0056b3;
-    }
-
-    .comments-section {
-      background-color: #333;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-
-    .comment-input {
-      width: 100%;
-      padding: 10px;
-      background-color: #444;
-      color: white;
-      border-radius: 8px;
-      border: 1px solid #444;
-    }
-
-    .comment-list {
-      margin-top: 15px;
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    .comment {
-      background-color: #2c2c2c;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #111; /* Very dark footer */
+    .profile-link {
       color: #ccc;
-    }
-
-    .transparent-text {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 30px;
-      color: rgba(255, 255, 255, 0.3); /* Transparent white text */
-      font-weight: bold;
-    }
-
-    /* Video size */
-    #videoIframe {
-      width: 100%;
-      height: 400px; /* Adjusted video size */
-      border-radius: 8px;
-    }
-
-    /* Disable all elements except video section */
-    .disabled {
-      pointer-events: none;
-      opacity: 0.5;
-    }
-
-    /* Disabled thumbnail style */
-    .disabled-thumbnail {
-      pointer-events: none;
-      opacity: 0.5;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -175,173 +55,160 @@
 
   <!-- Fixed Header -->
   <header id="header">
-    <a href="index.html" id="homeLink">  <!-- Link to the home page -->
-      <h1>MattTube</h1>
-    </a>
+    <a href="index.html" id="homeLink"><h1>MattTube</h1></a>
+    <div id="authSection">
+      <button class="button" onclick="openLoginModal()">Login / Register</button>
+    </div>
     <input type="text" placeholder="Search videos..." />
   </header>
 
-  <!-- Home Page Video Card -->
-  <div class="video-card" onclick="openVideo('0e3GPea1Tyg', '$456,000 Squid Game In Real Life! - MrBeast')">
-    <img class="video-thumbnail" src="https://img.youtube.com/vi/0e3GPea1Tyg/0.jpg" alt="MrBeast Squid Game" />
-    <h3>$456,000 Squid Game In Real Life! - MrBeast</h3>
-    <p>MrBeast • 200M views • 2 months ago</p>
-  </div>
-
-  <!-- Video Section (Visible only when a video is clicked) -->
-  <div class="content" id="videoContent">
-    <!-- Video Player -->
-    <div class="video-section">
-      <iframe id="videoIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <h3 id="videoTitle"></h3>
-      <p id="videoInfo"></p>
-
-      <div class="buttons">
-        <button class="button" id="likeBtn" onclick="toggleLike()">Like</button>
-        <button class="button" id="subscribeBtn" onclick="toggleSubscribe()">Subscribe</button>
-      </div>
-
-      <div class="comments-section">
-        <textarea id="commentInput" class="comment-input" placeholder="Add a comment..."></textarea>
-        <button class="button" onclick="addComment()">Post Comment</button>
-
-        <div class="comment-list" id="commentList"></div>
-        <p id="commentCount"></p>
-      </div>
-    </div>
-
-    <!-- Side Video Section (Placeholder Videos) -->
-    <div class="side-video-section">
-      <div class="video-card" onclick="openVideo('1gLHZtGf3G4', 'Side Video 1')">
-        <img class="video-thumbnail" src="https://img.youtube.com/vi/1gLHZtGf3G4/0.jpg" alt="Side Video 1" />
-        <h3>Side Video 1</h3>
-        <p>100M views • 1 month ago</p>
-      </div>
-      <div class="video-card" onclick="openVideo('2L6lXZdqY-E', 'Side Video 2')">
-        <img class="video-thumbnail" src="https://img.youtube.com/vi/2L6lXZdqY-E/0.jpg" alt="Side Video 2" />
-        <h3>Side Video 2</h3>
-        <p>50M views • 3 weeks ago</p>
-      </div>
+  <!-- Login/Register Modal -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <h3>Login / Register</h3>
+      <input type="text" id="loginUsername" placeholder="Username">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button class="button" onclick="login()">Login</button>
+      <button class="button" onclick="register()">Register</button>
     </div>
   </div>
 
-  <footer>
-    <p>&copy; 2025 MattTube</p>
-  </footer>
-
-  <!-- Transparent Text -->
-  <div class="transparent-text">proof matthew pella made this!</div>
+  <!-- Your previous video section -->
+  <!-- ... (SAME as you posted: video-card, content, footer, transparent text) ... -->
 
   <script>
-    // Disable all elements except the video section when a video is clicked
+    let currentUser = null;
+
+    function openLoginModal() {
+      document.getElementById('authModal').style.display = 'flex';
+    }
+
+    function closeLoginModal() {
+      document.getElementById('authModal').style.display = 'none';
+    }
+
+    function login() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+
+      if (users[username] && users[username].password === password) {
+        currentUser = username;
+        localStorage.setItem('currentUser', username);
+        alert('Logged in as ' + username);
+        updateAuthUI();
+        closeLoginModal();
+      } else {
+        alert('Incorrect username or password.');
+      }
+    }
+
+    function register() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+
+      if (users[username]) {
+        alert('Username already exists.');
+        return;
+      }
+
+      users[username] = { password: password, likes: 0, subscriptions: 0, comments: [] };
+      localStorage.setItem('users', JSON.stringify(users));
+      alert('Registered successfully! You can now login.');
+    }
+
+    function updateAuthUI() {
+      const authSection = document.getElementById('authSection');
+      if (currentUser) {
+        authSection.innerHTML = `<span class='profile-link' onclick='viewProfile()'>@${currentUser}</span> <button class="button" onclick="logout()">Logout</button>`;
+      } else {
+        authSection.innerHTML = `<button class="button" onclick="openLoginModal()">Login / Register</button>`;
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('currentUser');
+      currentUser = null;
+      updateAuthUI();
+    }
+
+    function viewProfile() {
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+      const userData = users[currentUser];
+
+      if (!userData) return;
+
+      alert(`Profile: @${currentUser}\nLikes: ${userData.likes}\nSubscriptions: ${userData.subscriptions}\nComments: ${userData.comments.length}`);
+    }
+
+    // Open a video by ID
+    function openVideo(videoId, title) {
+      disableElements();
+      document.getElementById('videoContent').style.display = 'flex';
+      const iframe = document.getElementById('videoIframe');
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      document.getElementById('videoTitle').innerText = title;
+      document.getElementById('videoInfo').innerText = 'MattTube Video';
+      const thumbnails = document.querySelectorAll('.video-thumbnail');
+      thumbnails.forEach(thumbnail => thumbnail.classList.add('disabled-thumbnail'));
+      loadComments();
+    }
+
+    function toggleLike() {
+      if (!currentUser) return alert('Please log in to like.');
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+      users[currentUser].likes++;
+      localStorage.setItem('users', JSON.stringify(users));
+      alert('Liked! Total Likes: ' + users[currentUser].likes);
+    }
+
+    function toggleSubscribe() {
+      if (!currentUser) return alert('Please log in to subscribe.');
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+      users[currentUser].subscriptions++;
+      localStorage.setItem('users', JSON.stringify(users));
+      alert('Subscribed! Total Subs: ' + users[currentUser].subscriptions);
+    }
+
+    function loadComments() {
+      const commentList = document.getElementById('commentList');
+      commentList.innerHTML = '';
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+      for (let user in users) {
+        users[user].comments.forEach(comment => {
+          const commentElement = document.createElement('div');
+          commentElement.classList.add('comment');
+          commentElement.innerText = `${user}: ${comment}`;
+          commentList.appendChild(commentElement);
+        });
+      }
+    }
+
+    function addComment() {
+      if (!currentUser) return alert('Please log in to comment.');
+      const commentInput = document.getElementById('commentInput');
+      const text = commentInput.value.trim();
+      if (!text) return;
+
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+      users[currentUser].comments.push(text);
+      localStorage.setItem('users', JSON.stringify(users));
+
+      commentInput.value = '';
+      loadComments();
+    }
+
     function disableElements() {
       document.getElementById('header').classList.add('disabled');
       document.querySelectorAll('.video-card').forEach(card => card.classList.add('disabled'));
       document.getElementById('homeLink').classList.add('disabled');
     }
 
-    // Enable all elements when leaving the video section
-    function enableElements() {
-      document.getElementById('header').classList.remove('disabled');
-      document.querySelectorAll('.video-card').forEach(card => card.classList.remove('disabled'));
-      document.getElementById('homeLink').classList.remove('disabled');
-      document.getElementById('videoContent').style.display = 'none'; // Hide video content
-    }
-
-    // Check if username exists in localStorage
-    function getUsername() {
-      return localStorage.getItem('username');
-    }
-
-    // Prompt user to set a username if not set
-    function setUsername() {
-      let username = prompt('Please set a unique username:');
-      if (username) {
-        const existingUsers = JSON.parse(localStorage.getItem('usernames')) || [];
-        if (existingUsers.includes(username)) {
-          alert('Username already taken. Please choose another one.');
-          setUsername(); // Recursively ask for a new username
-        } else {
-          localStorage.setItem('username', username);
-          existingUsers.push(username);
-          localStorage.setItem('usernames', JSON.stringify(existingUsers));
-        }
-      }
-    }
-
-    // Open a video by ID
-    function openVideo(videoId, title) {
-      disableElements();
-      document.getElementById('videoContent').style.display = 'flex'; // Show video content section
-      const iframe = document.getElementById('videoIframe');
-      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-      document.getElementById('videoTitle').innerText = title;
-      document.getElementById('videoInfo').innerText = 'MrBeast • 200M views • 2 months ago';
-      // Disable thumbnail when clicked
-      const thumbnails = document.querySelectorAll('.video-thumbnail');
-      thumbnails.forEach(thumbnail => thumbnail.classList.add('disabled-thumbnail'));
-    }
-
-    // Toggle Like button state and save to localStorage
-    function toggleLike() {
-      const likeBtn = document.getElementById('likeBtn');
-      let likes = parseInt(localStorage.getItem('likes')) || 0;
-      likes += 1;
-      localStorage.setItem('likes', likes);
-      likeBtn.innerText = `Like (${likes})`;
-    }
-
-    // Toggle Subscribe button state and save to localStorage
-    function toggleSubscribe() {
-      const subscribeBtn = document.getElementById('subscribeBtn');
-      let subscriptions = parseInt(localStorage.getItem('subscriptions')) || 0;
-      subscriptions += 1;
-      localStorage.setItem('subscriptions', subscriptions);
-      subscribeBtn.innerText = `Subscribe (${subscriptions})`;
-    }
-
-    // Load comments from localStorage
-    function loadComments() {
-      const comments = JSON.parse(localStorage.getItem('comments')) || [];
-      const commentList = document.getElementById('commentList');
-      const commentCount = document.getElementById('commentCount');
-      commentList.innerHTML = ''; // Clear existing comments
-      comments.forEach(comment => {
-        const commentElement = document.createElement('div');
-        commentElement.classList.add('comment');
-        commentElement.innerText = `${comment.username}: ${comment.text}`;
-        commentList.appendChild(commentElement);
-      });
-      commentCount.innerText = `Comments: ${comments.length}`;
-    }
-
-    // Add a comment to localStorage
-    function addComment() {
-      const commentInput = document.getElementById('commentInput');
-      const username = getUsername();
-      if (!username) {
-        alert('Please set a username before commenting.');
-        setUsername(); // Ask for a username
-        return;
-      }
-
-      const commentText = commentInput.value.trim();
-      if (commentText) {
-        const comments = JSON.parse(localStorage.getItem('comments')) || [];
-        comments.push({ username, text: commentText });
-        localStorage.setItem('comments', JSON.stringify(comments));
-        commentInput.value = ''; // Clear input
-        loadComments(); // Reload comments
-      }
-    }
-
-    // Enable elements when page loads
     window.onload = function() {
+      currentUser = localStorage.getItem('currentUser');
+      updateAuthUI();
       loadComments();
-      const likes = localStorage.getItem('likes') || 0;
-      const subscriptions = localStorage.getItem('subscriptions') || 0;
-      document.getElementById('likeBtn').innerText = `Like (${likes})`;
-      document.getElementById('subscribeBtn').innerText = `Subscribe (${subscriptions})`;
     }
   </script>
 </body>
