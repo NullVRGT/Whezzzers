@@ -3,63 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MattTube - Old School Style</title>
+  <title>MattTube</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
-      background: #f1f1f1; /* Lighter background */
-      color: #333; /* Dark text for contrast */
+      background: #1a1a1a; /* Dark background */
+      color: #fff; /* White text */
     }
 
     header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 10px 30px;
-      background: #ff4d00; /* Old-school orange header */
+      padding: 10px 20px;
+      background: #007bff; /* Blue header */
       color: white;
-      font-size: 24px;
-      font-weight: bold;
-      border-bottom: 5px solid #333; /* Thick bottom border */
-      position: fixed;
+      justify-content: space-between;
+      position: fixed; /* Keeps header on top */
       width: 100%;
-      z-index: 1000;
+      z-index: 1000; /* Makes sure it's always on top */
     }
 
     header h1 {
       margin: 0;
-      font-family: 'Courier New', Courier, monospace; /* Retro font */
+      font-size: 24px;
     }
 
     header a {
-      color: white;
-      text-decoration: none;
+      color: white; /* Link color */
+      text-decoration: none; /* Remove underline */
     }
 
     header input {
-      padding: 8px;
-      width: 250px;
-      border: 1px solid #333;
-      background-color: #e5e5e5;
-      color: #333;
-      font-size: 14px;
-      font-family: 'Courier New', Courier, monospace;
+      padding: 5px;
+      width: 300px;
+      border: none;
+      border-radius: 4px;
+      background-color: #444;
+      color: white;
     }
 
     .content {
       display: flex;
       gap: 20px;
-      padding: 80px 30px 20px;
-      display: none;
+      padding: 20px;
+      display: none; /* Hide video section by default */
+      margin-top: 60px; /* Adjust margin to make room for fixed header */
     }
 
     .video-section {
       flex: 3;
-      padding: 20px;
-      background: #fff;
-      border: 1px solid #ddd; /* Thin border */
-      border-radius: 8px;
     }
 
     .side-video-section {
@@ -70,34 +63,27 @@
     }
 
     .video-card {
-      background: #fff;
-      border: 3px solid #333; /* Thicker border for retro look */
+      background: #2c2c2c; /* Darker card background */
       padding: 10px;
       border-radius: 8px;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .video-card:hover {
-      transform: scale(1.05); /* Slight zoom effect on hover */
     }
 
     .video-card h3 {
       font-size: 18px;
-      color: #333;
+      color: #fff;
       margin: 10px 0;
     }
 
     .video-card p {
-      font-size: 14px;
-      color: #666;
+      color: #ccc;
     }
 
     .video-thumbnail {
-      width: 20%; /* Smaller thumbnail size */
-      height: auto;
-      border-radius: 5px;
+      width: 20%; /* 5x smaller */
+      height: auto; /* Maintain aspect ratio */
+      border-radius: 8px;
+      cursor: pointer;
     }
 
     .buttons {
@@ -107,54 +93,51 @@
     }
 
     .button {
-      background-color: #ff4d00;
+      background-color: #007bff;
       color: white;
       border: none;
       padding: 8px 16px;
       border-radius: 4px;
-      font-family: 'Courier New', Courier, monospace;
       cursor: pointer;
-      font-size: 14px;
-      text-transform: uppercase;
     }
 
     .button:hover {
-      background-color: #e63e00;
+      background-color: #0056b3;
     }
 
     .comments-section {
-      background-color: #fff;
+      background-color: #333;
       padding: 15px;
       border-radius: 8px;
       margin-top: 20px;
-      border: 1px solid #ddd;
     }
 
     .comment-input {
       width: 100%;
       padding: 10px;
-      background-color: #f0f0f0;
-      color: #333;
-      border-radius: 5px;
-      border: 1px solid #ddd;
+      background-color: #444;
+      color: white;
+      border-radius: 8px;
+      border: 1px solid #444;
     }
 
     .comment-list {
       margin-top: 15px;
+      max-height: 300px;
+      overflow-y: auto;
     }
 
     .comment {
-      background-color: #f9f9f9;
+      background-color: #2c2c2c;
       padding: 10px;
       margin-bottom: 10px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
+      border-radius: 8px;
     }
 
     footer {
       text-align: center;
       padding: 20px;
-      background: #111; /* Dark footer for contrast */
+      background: #111; /* Very dark footer */
       color: #ccc;
     }
 
@@ -164,14 +147,14 @@
       left: 50%;
       transform: translateX(-50%);
       font-size: 30px;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.3); /* Transparent white text */
       font-weight: bold;
     }
 
     /* Video size */
     #videoIframe {
       width: 100%;
-      height: 400px;
+      height: 400px; /* Adjusted video size */
       border-radius: 8px;
     }
 
